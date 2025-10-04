@@ -17,6 +17,7 @@ function App() {
           <Toaster position="top-right" richColors />
           <Routes>
             <Route path="/auth" element={<Auth />} />
+            <Route path="/dashboard" element={<DashBoard />}></Route>
             <Route
               path="/"
               element={

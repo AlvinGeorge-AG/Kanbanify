@@ -20,12 +20,16 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem("refreshToken", refresh);
   };
 
-  const loginUser = async (email, password) => {
+  const loginUser = async (email, password, setloading) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
-        email,
-        password,
-      });
+      // const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+      //   email,
+      //   password,
+      // });
+      // setloading(false);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 5000);
       const data = response.data;
       setAccessToken(data.accessToken);
       setRefreshToken(data.refreshToken);
@@ -34,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       return true;
     } catch (error) {
       setIsAuthenticated(false);
+      // setloading(false);
       return false;
     }
   };
@@ -59,15 +64,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signupUser = async (name, email, password) => {
+  const signupUser = async (name, email, password, setloading) => {
     try {
-      const response = await axios.post(`${API_BASE_URL}/auth/signup`, {
-        name,
-        email,
-        password,
-      });
+      // const response = await axios.post(`${API_BASE_URL}/auth/signup`, {
+      //   name,
+      //   email,
+      //   password,
+      // });
+      setTimeout(() => {
+        alert("Account Created SuccessFully !!");
+        navigate("/dashboard");
+      }, 5000);
+      // setloading(false);
+
     } catch (error) {
       console.error("Error signing up:", error);
+      // setloading(false);
       return false;
     }
   };
@@ -76,7 +88,7 @@ export const AuthProvider = ({ children }) => {
     const instance = axios.create({
       baseURL: API_BASE_URL
     });
-    
+
     instance.interceptors.request.use(
       (config) => {
         if (accessToken) {

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import LoadingModal from "./spinner";
 import {
   Card,
   CardHeader,
@@ -10,18 +12,22 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 const Login = () => {
   const { loginUser } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const [loading, setloading] = useState(false);
+  const navigate = useNavigate();
   const handleLogin = async (e) => {
     e.preventDefault();
-    await loginUser(email, password);
+    setloading(true);
+    await loginUser(email, password, setloading, navigate);
   };
   return (
     <div className="login-container flex justify-center items-center">
+      {loading && (<LoadingModal></LoadingModal>)}
       <Card className="max-w-md mx-auto min-w-[400px]">
         <CardContent>
           <form>
